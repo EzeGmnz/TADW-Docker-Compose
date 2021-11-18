@@ -1,0 +1,43 @@
+version: '3'
+services:
+    microservicio_A:
+        image: microservicioa
+        build:
+            context: ./microservicio_A
+            dockerfile: Dockerfile
+        container_name: microservicio_A
+        ports:
+            - '4000:80'
+        environment:
+            - PORT=80
+        restart: 'no'
+
+    microservicio_B:
+        image: microserviciob
+        build:
+            context: ./microservicio_B
+            dockerfile: Dockerfile
+        container_name: microservicio_B
+        ports:
+            - '4001:80'
+        environment:
+            - PORT=80
+            - PALABRA_HOST=microservicio_A
+            - PALABRA_PORT=80
+            - PALABRA_PATH=/palabra
+        restart: 'no'
+
+    microservicio_C:
+        image: microservicioc
+        build:
+            context: ./microservicio_C
+            dockerfile: Dockerfile
+        container_name: microservicio_C
+        ports:
+            - '4002:80'
+        environment:
+            - PORT=80
+            - MAYUSCULA_HOST=microservicio_B
+            - MAYUSCULA_PORT=80
+            - MAYUSCULA_PATH=/mayusculas
+        restart: 'no'
